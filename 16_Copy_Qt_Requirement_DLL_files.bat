@@ -3,18 +3,17 @@ rem 16_Copy_Qt_Requirement_DLL_files.bat
 rem http://www.neko.ne.jp/~freewing/software/build_fritzing_100_windows/
 rem Copyright (c) 2023 FREE WING,Y.Sakamoto
 echo %0
-timeout /T 10 /NOBREAK
-cd /d \00_fritzing
+timeout /T 10
 
 cd .\release64
 
 if not exist Fritzing.exe goto failed
 
-C:\Qt\6.5.3\msvc2019_64\bin\windeployqt6.exe Fritzing.exe
+C:\Qt\%QT_VERSION%\msvc2022_64\bin\windeployqt6.exe Fritzing.exe
 
 cd ..
 
-exit
+exit /b 0
 
 :failed
 @echo off

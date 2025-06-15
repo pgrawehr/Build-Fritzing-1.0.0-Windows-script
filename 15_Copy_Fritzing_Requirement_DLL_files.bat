@@ -1,4 +1,4 @@
-@echo off
+echo on
 rem 15_Copy_Fritzing_Requirement_DLL_files.bat
 rem http://www.neko.ne.jp/~freewing/software/build_fritzing_100_windows/
 rem Copyright (c) 2023-2024 FREE WING,Y.Sakamoto
@@ -16,5 +16,5 @@ copy .\Spice64_dll\dll-vs\*.dll .\release64
 rem for Fritzing 1.0.2
 copy .\clipper1-6.4.2\lib\polyclipping.dll .\release64
 
-exit
+exit /b 0
 
