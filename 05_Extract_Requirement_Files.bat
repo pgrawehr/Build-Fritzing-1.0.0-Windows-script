@@ -1,10 +1,11 @@
-@echo off
+@echo on
 rem 05_Extract_Requirement_Files.bat
 rem http://www.neko.ne.jp/~freewing/software/build_fritzing_100_windows/
 rem Copyright (c) 2023-2024 FREE WING,Y.Sakamoto
 echo %0
 timeout /T 10 /NOBREAK
-cd /d \00_fritzing
+
+SET QT_VERSION=6.9.1
 
 UnZip.exe boost_1_85_0.zip .
 
@@ -28,8 +29,9 @@ ren openssl-3.0 openssl-3.0.12
 cd openssl-3.0.12
 xcopy /R /S .\x64\* .
 ren lib lib64
+cd ..
 
-exit
+exit /b 0
 
 
 :7z_inst
@@ -55,8 +57,9 @@ echo 7z2301-x64.exe /S /D=%cd%\7z>>7z_inst.bat
 
 start /wait powershell "Start-Process -FilePath '7z_inst.bat' -WorkingDirectory '%cd%' -Verb RunAs -Wait"
 
-.\7z\7z x PortableGit-2.42.0.2-64-bit.7z.exe -o.\PortableGit
+if exist PortableGit-2.42.0.2-64-bit.7z.exe .\7z\7z x PortableGit-2.42.0.2-64-bit.7z.exe -o.\PortableGit
 .\7z\7z x ngspice-42_dll_64.7z -o.\
 
-exit
+exit /b 0
+
 

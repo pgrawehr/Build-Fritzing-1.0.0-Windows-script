@@ -3,8 +3,8 @@ rem 00_Execute_Script.bat
 rem http://www.neko.ne.jp/~freewing/software/build_fritzing_100_windows/
 rem Copyright (c) 2023 FREE WING,Y.Sakamoto
 echo %0
-cd /d \00_fritzing
 
+if %VS_ROOT_DIR%!=! set VS_ROOT_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools"
 start /wait 02_Download_Requirement_Files.bat
 start /wait 03_Install_Qt_653.bat
 start /wait 04_Install_Visual_Studio_Build_Tools_2019.bat
@@ -28,5 +28,5 @@ start /wait 18_2nd_Launch_Fritzing.bat
 start /wait 19_Organize_unnecessary_files.bat
 start /wait 20_Create_Fritzing_zip_package.bat
 
-exit
+exit /b 0
 

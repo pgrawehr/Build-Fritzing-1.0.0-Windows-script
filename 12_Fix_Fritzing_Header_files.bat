@@ -4,9 +4,9 @@ rem http://www.neko.ne.jp/~freewing/software/build_fritzing_100_windows/
 rem Copyright (c) 2023 FREE WING,Y.Sakamoto
 echo %0
 timeout /T 10 /NOBREAK
-cd /d \00_fritzing
 
-Path=%cd%\PortableGit\bin;%Path%
+where git
+if errorlevel 1 Path=%cd%\PortableGit\bin;%Path%
 
 cd fritzing-app
 
@@ -17,7 +17,7 @@ xcopy ..\fritzing_h\ ..\release64\
 
 cd ..
 
-exit
+exit /b 0
 
 
 :qmake_jom
@@ -40,5 +40,6 @@ xcopy ..\fritzing_h\ ..\release64\
 
 cd ..
 
-exit
+exit /b 0
+
 

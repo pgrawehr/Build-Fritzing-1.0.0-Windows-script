@@ -4,18 +4,18 @@ rem http://www.neko.ne.jp/~freewing/software/build_fritzing_100_windows/
 rem Copyright (c) 2023-2024 FREE WING,Y.Sakamoto
 echo %0
 timeout /T 10 /NOBREAK
-cd /d \00_fritzing
 
-Path=%cd%\PortableGit\bin;%Path%
+where git
+if errorlevel 1 Path=%cd%\PortableGit\bin;%Path%
 
 rem Visual Studio 2019 Build Tools
-call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\Common7\Tools\VsDevCmd.bat"
+call %VS_ROOT_PATH%\Common7\Tools\VsDevCmd.bat
 
 echo Build Boost
 cd boost_1_85_0
 
 rem Visual Studio 16 2019 BuildTools VS2019 14.2
-call bootstrap.bat vc142
+call bootstrap.bat
 
 echo %cd%
 set BOOST_DIR=%cd%
@@ -23,8 +23,8 @@ set BUILD_JOBS=%NUMBER_OF_PROCESSORS%
 rem Visual Studio 16 2019 BuildTools VS2019 14.2
 set TOOL_SET=msvc-14.2
 
-b2.exe toolset=%TOOL_SET% link=static runtime-link=static,shared --build-dir=build/x64 address-model=64 -j%BUILD_JOBS% install --includedir=%BOOST_DIR%\include --libdir=%BOOST_DIR%\stage\lib\x64
-if not "%ERRORLEVEL%" == "0" goto failed
+b2.exe link=static runtime-link=static,shared --build-dir=build/x64 address-model=64 -j%BUILD_JOBS% install --includedir=%BOOST_DIR%\include --libdir=%BOOST_DIR%\stage\lib\x64
+if errorlevel 1 goto failed
 
 cd ..
 
@@ -34,11 +34,11 @@ cd libgit2
 rmdir /S /Q build64
 mkdir build64
 cd build64
-cmake .. -G "Visual Studio 16 2019" -A x64 -DBUILD_CLAR=OFF
-if not "%ERRORLEVEL%" == "0" goto failed
+cmake .. -A x64 -DBUILD_CLAR=OFF
+if errorlevel 1 goto failed
 
 cmake --build . --config Release
-if not "%ERRORLEVEL%" == "0" goto failed
+if errorlevel 1 goto failed
 
 cd ..
 cd ..
@@ -49,11 +49,11 @@ cd zlib-src
 rmdir /S /Q build64
 mkdir build64
 cd build64
-cmake ..  -G "Visual Studio 16 2019" -A x64
-if not "%ERRORLEVEL%" == "0" goto failed
+cmake .. -A x64
+if errorlevel 1 goto failed
 
 msbuild /P:Configuration=Release  ALL_BUILD.vcxproj
-if not "%ERRORLEVEL%" == "0" goto failed
+if errorlevel 1 goto failed
 
 cd ..
 
@@ -70,15 +70,15 @@ cd quazip-1.4
 
 dir ..\zlib-src\build64\Release\zlib.lib
 
-set Qt6_DIR=C:\Qt\6.5.3\msvc2019_64
+set Qt6_DIR=C:\Qt\%QT_VERSION%\msvc2022_64
 dir %Qt6_DIR%
 
 rmdir /S /Q build64
 mkdir build64
 cmake -S . -B build64 ^
-  -G "Visual Studio 16 2019" -A x64 ^
+  -A x64 ^
   -D QUAZIP_QT_MAJOR_VERSION=6 ^
-  -D CMAKE_INSTALL_PREFIX=..\quazip-6.5.3-1.4 ^
+  -D CMAKE_INSTALL_PREFIX=..\quazip-%QT_VERSION%-1.4 ^
   -D QUAZIP_USE_QT_ZLIB=OFF ^
   -D ZLIB_INCLUDE_DIR=..\zlib-src ^
   -D ZLIB_LIBRARY=%cd%\..\zlib-src\build64\Release\zlib.lib
@@ -104,7 +104,7 @@ del CMakeLists.tmp
 rmdir /S /Q build64
 mkdir build64
 cd build64
-cmake .. -G "Visual Studio 16 2019" -A x64 -DBUILD_CLAR=OFF
+cmake .. -A x64 -DBUILD_CLAR=OFF
 if not "%ERRORLEVEL%" == "0" goto failed
 
 cmake --build . --config Release
@@ -122,7 +122,7 @@ copy .\Release\ ..\..\lib\
 cd ..
 cd ..
 
-exit
+exit /b 0
 
 :failed
 @echo off

@@ -4,10 +4,8 @@ rem http://www.neko.ne.jp/~freewing/software/build_fritzing_100_windows/
 rem Copyright (c) 2023 FREE WING,Y.Sakamoto
 echo %0
 timeout /T 10 /NOBREAK
-cd /d \00_fritzing
 
-if exist "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools" exit
-
+if exist %VS_ROOT_DIR% exit
 
 @echo off
 echo Check Admin Plivilege

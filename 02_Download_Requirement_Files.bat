@@ -4,11 +4,15 @@ rem http://www.neko.ne.jp/~freewing/software/build_fritzing_100_windows/
 rem Copyright (c) 2023-2024 FREE WING,Y.Sakamoto
 echo %0
 timeout /T 10 /NOBREAK
-cd /d \00_fritzing
 
+where git
+if errorlevel 0 goto gitexists
 rem https://git-scm.com/download/win
 echo Git - Downloading Package Download for Windows
 if not exist PortableGit-2.42.0.2-64-bit.7z.exe DownloadFile https://github.com/git-for-windows/git/releases/download/v2.42.0.windows.2/PortableGit-2.42.0.2-64-bit.7z.exe PortableGit-2.42.0.2-64-bit.7z.exe
+if not exist PortableGit-2.42.0.2-64-bit.7z.exe goto failed
+
+: gitexists
 
 rem https://www.7-zip.org/
 echo 7-Zip
@@ -61,7 +65,7 @@ echo polyclipping v6.4.2
 if not exist clipper_ver6.4.2.zip DownloadFile https://jaist.dl.sourceforge.net/project/polyclipping/clipper_ver6.4.2.zip clipper_ver6.4.2.zip
 
 rem check download files
-if not exist PortableGit-2.42.0.2-64-bit.7z.exe goto failed
+
 if not exist 7zr.exe goto failed
 if not exist vs_BuildTools_2019.exe goto failed
 if not exist qt-unified-windows-x64-4.6.1-online.exe goto failed
@@ -73,7 +77,7 @@ rem for Fritzing 1.0.2
 if not exist openssl-3.0.12.zip goto failed
 if not exist clipper_ver6.4.2.zip goto failed
 
-exit
+exit /b 0
 
 :failed
 @echo off

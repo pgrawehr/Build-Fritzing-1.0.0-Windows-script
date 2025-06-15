@@ -5,9 +5,8 @@ rem Copyright (c) 2023 FREE WING,Y.Sakamoto
 echo %0
 timeout /T 10 /NOBREAK
 @echo off
-cd /d \00_fritzing
 
-if exist "C:\Qt\6.5.3\msvc2019_64" exit
+if exist "C:\Qt\" exit
 
 
 echo .
@@ -87,7 +86,7 @@ if not exist jom_1_1_4.zip DownloadFile https://download.qt.io/official_releases
 UnZip.exe jom_1_1_4.zip C:\Qt\Tools\QtCreator\bin\jom\
 
 :end
-exit
+exit /b 0
 
 
 rem include QtCreator

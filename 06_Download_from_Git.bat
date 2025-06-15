@@ -4,9 +4,9 @@ rem http://www.neko.ne.jp/~freewing/software/build_fritzing_100_windows/
 rem Copyright (c) 2023 FREE WING,Y.Sakamoto
 echo %0
 timeout /T 10 /NOBREAK
-cd /d \00_fritzing
 
-Path=%cd%\PortableGit\bin;%Path%
+where git
+if errorlevel 1 Path=%cd%\PortableGit\bin;%Path%
 
 rem https://github.com/stachenov/quazip/releases
 echo QuaZip v1.4
@@ -20,5 +20,5 @@ rem https://github.com/libgit2/libgit2/releases/tag/v0.28.5
 echo libgit2 v0.28.5
 git clone https://github.com/libgit2/libgit2 -b v0.28.5
 
-exit
+exit /b 0
 

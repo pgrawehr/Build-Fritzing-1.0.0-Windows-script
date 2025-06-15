@@ -4,9 +4,9 @@ rem http://www.neko.ne.jp/~freewing/software/build_fritzing_100_windows/
 rem Copyright (c) 2023-2024 FREE WING,Y.Sakamoto
 echo %0
 timeout /T 10 /NOBREAK
-cd /d \00_fritzing
 
-Path=%cd%\PortableGit\bin;%Path%
+where git
+if errorlevel 1 Path=%cd%\PortableGit\bin;%Path%
 
 mkdir release64
 cd release64
